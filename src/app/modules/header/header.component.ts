@@ -14,7 +14,6 @@ export class HeaderComponent implements OnInit {
   constructor(public headerService: HeaderService) { }
   ngOnInit() {
     this.headerService.getUAHCurrency().subscribe((res: any) => {
-      console.log(res)
       for (let i = 0; i < res.length; i++) {
         if (res[i].currencyCodeA == 840 && res[i].currencyCodeB == 980) {
           this.exchangeRateUSD = res[i].rateBuy
