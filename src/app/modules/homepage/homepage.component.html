@@ -1,0 +1,27 @@
+<div class="converter-wrapper">
+  <form [formGroup]="searchForm">
+    <div  class="converter">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>The amount of money</mat-label>
+        <input matInput formControlName="firstCoin" type="number" placeholder="Enter a number" value="  ">
+        <mat-select matSuffix  formControlName="typeCurrencyFirst">
+          <mat-option *ngFor="let currency of currencies" [value]="currency.value">
+            {{currency.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    <div class="converter">
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>The amount of money</mat-label>
+        <input matInput type="number" formControlName="secondCoin" placeholder="Enter a number" value="Sushi">
+        <mat-select  matSuffix  formControlName="typeCurrencySecond">
+          <mat-option *ngFor="let currency of currencies" [value]="currency.value">
+            {{currency.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</div>

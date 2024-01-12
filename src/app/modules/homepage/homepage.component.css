@@ -1,0 +1,9 @@
+.converter-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 150px;
+    .converter{
+        width: 300px;
+    }
+}
