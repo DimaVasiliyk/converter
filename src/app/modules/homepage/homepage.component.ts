@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { HomepageService } from './homepage.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { combineLatest, combineLatestWith, debounceTime, distinctUntilChanged } from 'rxjs';
-
-
+import { combineLatest, debounceTime, distinctUntilChanged } from 'rxjs';
 
 interface Currency {
   value: string;
@@ -18,8 +16,7 @@ interface Currency {
 export class HomepageComponent {
 
   public searchForm: FormGroup;
-  public valueCof = null;
-  public updatingValueProgrammatically = false;
+  public conversionRate = null;
 
   public currencies: Currency[] = [
     { value: 'None', viewValue: 'None' },
@@ -29,7 +26,7 @@ export class HomepageComponent {
     { value: 'PLN', viewValue: 'PLN' },
     { value: 'EUR', viewValue: 'EUR' },
   ];
-  
+
   constructor(private homepageService: HomepageService, private fb: FormBuilder) {
 
     this.searchForm = this.fb.group({
@@ -45,21 +42,20 @@ export class HomepageComponent {
       this.searchForm.controls['typeCurrencySecond']?.valueChanges.pipe(distinctUntilChanged())
     ]).pipe(debounceTime(800)).subscribe(([value1, value2, value3]) => {
       this.homepageService.getcurrentCurrency(value2).subscribe((res: any) => {
-        this.valueCof = res.conversion_rates[value3]
-        let calculatedValue  = value1 * res.conversion_rates[value3]
+        this.conversionRate = res.conversion_rates[value3]
+        let calculatedValue = value1 * res.conversion_rates[value3]
         if (calculatedValue !== this.searchForm.get('secondCoin')?.value) {
-          this.updatingValueProgrammatically = true;
           this.searchForm.get('secondCoin')?.setValue(calculatedValue);
         }
       })
     });
-    
+
     this.searchForm.controls['secondCoin']?.valueChanges.subscribe((value) => {
-      let calculatedValue  = value / this.valueCof!;
+      let calculatedValue = value / this.conversionRate!;
       if (calculatedValue !== this.searchForm.get('firstCoin')?.value) {
         this.searchForm.get('firstCoin')?.setValue(calculatedValue);
       }
-  });
+    });
   }
 
 }
